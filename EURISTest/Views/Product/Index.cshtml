@@ -1,7 +1,7 @@
-﻿@model IEnumerable<EURIS.Entities.LocalDbEntities>
+﻿@model IEnumerable<EURIS.Entities.Product>
 
 @{
-    ViewBag.Title = "Product";
+    ViewBag.Title = "Products";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -11,24 +11,32 @@
     @Html.ActionLink("Create New", "Create")
 </p>
 <table>
-    <tr>
-        <th></th>
-        <th>Id</th>
-        <th>Code</th>
-        <th>Description</th>
-    </tr>
+    @if ((Model == null) || !Model.Any())
+    {
+        <tr>
+            <td>There is no products yet.</td>
+        </tr>
+    }
+    else
+    {
+        <tr>
+            <th>Id</th>
+            <th>Code</th>
+            <th>Description</th>
+            <th>Action</th>
+        </tr>
 
-@foreach (var item in ViewBag.Products) {
-    <tr>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-        </td>
-        <td>@item.Id</td>
-        <td>@item.Code</td>
-        <td>@item.Description</td>
-    </tr>
-}
-
+        foreach (var product in Model)
+        {
+            <tr>
+                <td>@Html.ActionLink(product.Id.ToString(), "Info", new { id = product.Id })</td>
+                <td>@product.Code</td>
+                <td>@product.Description</td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = product.Id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = product.Id })
+                </td>
+            </tr>
+        }
+    }
 </table>

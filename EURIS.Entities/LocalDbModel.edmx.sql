@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 09/06/2020 12:41:29
+-- Date Created: 09/06/2020 17:52:58
 -- Generated from EDMX file: D:\Test\EURISTest\EURIS.Entities\LocalDbModel.edmx
 -- --------------------------------------------------
 
@@ -17,6 +17,12 @@ GO
 -- Dropping existing FOREIGN KEY constraints
 -- --------------------------------------------------
 
+IF OBJECT_ID(N'[dbo].[FK_ProductCatalog_Product]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[ProductCatalog] DROP CONSTRAINT [FK_ProductCatalog_Product];
+GO
+IF OBJECT_ID(N'[dbo].[FK_ProductCatalog_Catalog]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[ProductCatalog] DROP CONSTRAINT [FK_ProductCatalog_Catalog];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -25,6 +31,12 @@ GO
 IF OBJECT_ID(N'[dbo].[Product]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Product];
 GO
+IF OBJECT_ID(N'[dbo].[Catalog]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Catalog];
+GO
+IF OBJECT_ID(N'[dbo].[ProductCatalog]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[ProductCatalog];
+GO
 
 -- --------------------------------------------------
 -- Creating all tables
@@ -32,7 +44,7 @@ GO
 
 -- Creating table 'Product'
 CREATE TABLE [dbo].[Product] (
-    [Id] int  NOT NULL,
+    [Id] int IDENTITY(1,1) NOT NULL,
     [Code] nvarchar(10)  NOT NULL,
     [Description] nvarchar(50)  NOT NULL
 );

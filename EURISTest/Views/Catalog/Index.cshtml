@@ -1,0 +1,42 @@
+﻿@model IEnumerable<EURIS.Entities.Catalog>
+
+@{
+    ViewBag.Title = "Catalogs";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table>
+    @if ((Model == null) || !Model.Any())
+    {
+        <tr>
+            <td>There is no catalogs yet.</td>
+        </tr>
+    }
+    else
+    {
+        <tr>
+            <th>Id</th>
+            <th>Code</th>
+            <th>Description</th>
+            <th>Action</th>
+        </tr>
+
+        foreach (var catalog in Model)
+        {
+            <tr>
+                <td>@Html.ActionLink(catalog.Id.ToString(), "Info", new { id = catalog.Id })</td>
+                <td>@catalog.Code</td>
+                <td>@catalog.Description</td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = catalog.Id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = catalog.Id })
+                </td>
+            </tr>
+        }
+    }
+</table>

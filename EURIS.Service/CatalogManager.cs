@@ -9,96 +9,97 @@ using EURIS.Service;
 
 namespace EURIS.Service
 {
-    public class ProductManager
+    public class CatalogManager
     {
         LocalDbEntities context = new LocalDbEntities();
 
         /// <summary>
         /// Constructor
         /// </summary>
-        public ProductManager()
+        public CatalogManager()
         {
             context = new LocalDbEntities();
         }
 
         /// <summary>
-        /// Get all products
+        /// Get all catalogs
         /// </summary>
-        /// <returns>List of products</returns>
-        public List<Product> GetProducts()
+        /// <returns>List of catalogs</returns>
+        public List<Catalog> GetCatalogs()
         {
-            List<Product> products = new List<Product>();
+            List<Catalog> catalogs = new List<Catalog>();
             
-            products = (from item in context.Product
+            catalogs = (from item in context.Catalog
                         select item).ToList();
 
-            return products;
+            return catalogs;
         }
 
         /// <summary>
-        /// Finds product by id
+        /// Finds catalog by id
         /// </summary>
         /// <param name="Id"></param>
-        /// <returns>Product</returns>
-        public Product FindProduct(int Id)
+        /// <returns>Catalog</returns>
+        public Catalog FindCatalog(int Id)
         {
-            var product = context.Product.FirstOrDefault(x => x.Id == Id);
+            var catalog = context.Catalog.FirstOrDefault(x => x.Id == Id);
 
-            return product;
+            return catalog;
         }
+
         /// <summary>
-        /// Finds product by code
+        /// Find catalog by code
         /// </summary>
         /// <param name="code"></param>
-        /// <returns>Product if find, null if not found</returns>
-        public Product FindProduct(String code)
+        /// <returns>Catalog</returns>
+        public Catalog FindCatalog(String code)
         {
-            var product = context.Product.FirstOrDefault(x => x.Code == code);
+            var catalog = context.Catalog.FirstOrDefault(x => x.Code == code);
 
-            return product;
+            return catalog;
         }
 
         /// <summary>
-        /// Checks for product matching id
+        /// Checks for catalog matching id
         /// </summary>
         /// <param name="Id"></param>
-        /// <returns>True if product exists</returns>
-        public Boolean ProductExists(int Id)
+        /// <returns>True if catalog exists</returns>
+        public Boolean CatalogExists(int Id)
         {
-            var product = FindProduct(Id);
+            var catalog = FindCatalog(Id);
 
-            if (product == null)
+            if (catalog == null)
                 return false;
 
             return true;
         }
 
         /// <summary>
-        /// Checks for product matching code
+        /// Checks for catalog matching code
         /// </summary>
         /// <param name="code"></param>
-        /// <returns>True if product exists</returns>
-        public Boolean ProductExists(String code)
+        /// <returns>True if catalog exists</returns>
+        public Boolean CatalogExists(String code)
         {
-            var product = FindProduct(code);
+            var catalog = FindCatalog(code);
 
-            if (product == null)
+            if (catalog == null)
                 return false;
 
             return true;
         }
 
         /// <summary>
-        /// Creates new product
+        /// Creates new catalog
         /// </summary>
-        /// <param name="product"></param>
+        /// <param name="catalog"></param>
         /// <returns>Success if created, error message if not</returns>
-        public ServiceResponse CreateProduct(Product product)
+        public ServiceResponse CreateCatalog(Catalog catalog)
         {
-            if (ProductExists(product.Code))
-                return ServiceResponse.Error("Product with code " + product.Code + " already exists.");
+            if (CatalogExists(catalog.Code))
+                return ServiceResponse.Error("Catalog with code " + catalog.Code + " already exists.");
 
-            context.Product.Add(product);
+            context.Catalog.Add(catalog);
 
             try
             {
@@ -113,15 +114,15 @@ namespace EURIS.Service
         }
 
         /// <summary>
-        /// Updates product values
+        /// Updates catalog values
         /// </summary>
-        /// <param name="product"></param>
-        /// <returns>>Success if updated, error message if not</returns>
-        public ServiceResponse UpdateProduct(Product product)
+        /// <param name="catalog"></param>
+        /// <returns>Success if updated, error message if not</returns>
+        public ServiceResponse UpdateCatalog(Catalog catalog)
         {
-            var updproduct = FindProduct(product.Id);
-            updproduct.Code = product.Code;
-            updproduct.Description = product.Description;
+            var updcatalog = FindCatalog(catalog.Id);
+            updcatalog.Code = catalog.Code;
+            updcatalog.Description = catalog.Description;
 
             try
             {
@@ -136,13 +137,13 @@ namespace EURIS.Service
         }
 
         /// <summary>
-        /// Deletes product
+        /// Deletes catalog
         /// </summary>
-        /// <param name="product"></param>
+        /// <param name="catalog"></param>
         /// <returns>>Success if deleted, error message if not</returns>
-        public ServiceResponse DeleteProduct(Product product)
+        public ServiceResponse DeleteCatalog(Catalog catalog)
         {
-            context.Product.Remove(product);
+            context.Catalog.Remove(catalog);
 
             try
             {

@@ -8,50 +8,50 @@ using EURIS.Entities;
 
 namespace EURISTest.Controllers
 {
-    public class ProductController : Controller
+    public class CatalogController : Controller
     {
-        private readonly ProductManager productManager;
+        private readonly CatalogManager catalogManager;
 
         /// <summary>
         /// Costructor
         /// </summary>
-        public ProductController()
+        public CatalogController()
         {
-            productManager = new ProductManager();
+            catalogManager = new CatalogManager();
         }
 
         /// <summary>
-        /// Product index page
+        /// Catalog index page
         /// </summary>
-        /// <returns>Product index page</returns>
+        /// <returns>Catalog index page</returns>
         public ActionResult Index()
         {
-            List<Product> products = productManager.GetProducts();
+            List<Catalog> catalogs = catalogManager.GetCatalogs();
 
-            return View(products);
+            return View(catalogs);
         }
 
         /// <summary>
-        /// Create product
+        /// Create catalog
         /// </summary>
-        /// <returns>Create product view</returns>
+        /// <returns>Create catalog view</returns>
         [HttpGet]
         public ActionResult Create()
         {
-            return View(new Product());
+            return View(new Catalog());
         }
 
         /// <summary>
-        /// Create product form post
+        /// Create catalog form post
         /// </summary>
-        /// <param name="product"></param>
+        /// <param name="catalog"></param>
         /// <returns>View with error message if not succeded</returns>
         [HttpPost]
-        public ActionResult Create(Product product)
+        public ActionResult Create(Catalog catalog)
         {
-            if (!ModelState.IsValid) return View(product);
+            if (!ModelState.IsValid) return View(catalog);
 
-            var result = productManager.CreateProduct(product);
+            var result = catalogManager.CreateCatalog(catalog);
 
             if (result.IsSuccess)
             {
@@ -60,51 +60,51 @@ namespace EURISTest.Controllers
             else
             {
                 ViewBag.ErrorMessage = result.Message;
-                return View(product);
+                return View(catalog);
             }
         }
 
         /// <summary>
-        /// Displays product info
+        /// Displays catalog info
         /// </summary>
         /// <param name="id"></param>
-        /// <returns></returns>
+        /// <returns>Catalog info view</returns>
         [HttpGet]
         public ActionResult Info(int id)
         {
-            var product = productManager.FindProduct(id);
+            var catalog = catalogManager.FindCatalog(id);
 
-            if (product == null)
+            if (catalog == null)
                 return RedirectToAction("Index");
 
-            return View(product);
+            return View(catalog);
         }
 
         /// <summary>
-        /// Edit product
+        /// Edit catalog
         /// </summary>
         /// <param name="id"></param>
-        /// <returns></returns>
+        /// <returns>Catalog edit view</returns>
         [HttpGet]
         public ActionResult Edit(int id)
         {
-            var product = productManager.FindProduct(id);
+            var catalog = catalogManager.FindCatalog(id);
 
-            if (product == null)
+            if (catalog == null)
                 return RedirectToAction("Index");
 
-            return View(product);
+            return View(catalog);
         }
 
         /// <summary>
-        /// 
+        /// Updates catalog values
         /// </summary>
-        /// <param name="product"></param>
-        /// <returns></returns>
+        /// <param name="catalog"></param>
+        /// <returns>Catalog edit view on error</returns>
         [HttpPost]
-        public ActionResult Edit(Product product)
+        public ActionResult Edit(Catalog catalog)
         {
-            var result = productManager.UpdateProduct(product);
+            var result = catalogManager.UpdateCatalog(catalog);
 
             if (result.IsSuccess)
             {
@@ -113,40 +113,40 @@ namespace EURISTest.Controllers
             else
             {
                 ViewBag.ErrorMessage = result.Message;
-                return View(product);
+                return View(catalog);
             }
         }
 
         /// <summary>
-        /// 
+        /// Delete catalog
         /// </summary>
         /// <param name="id"></param>
-        /// <returns></returns>
+        /// <returns>Catalog delete confirmation view</returns>
         [HttpGet]
         public ActionResult Delete(int id)
         {
-            var product = productManager.FindProduct(id);
+            var catalog = catalogManager.FindCatalog(id);
 
-            if (product == null)
+            if (catalog == null)
                 return RedirectToAction("Index");
 
-            return View(product);
+            return View(catalog);
         }
 
         /// <summary>
-        /// 
+        /// Deletes catalog
         /// </summary>
         /// <param name="id"></param>
-        /// <returns></returns>
+        /// <returns>Catalog delete view on error</returns>
         [HttpPost]
         public ActionResult DeleteConfirmed(int id)
         {
-            var product = productManager.FindProduct(id);
+            var catalog = catalogManager.FindCatalog(id);
 
-            if (product == null)
+            if (catalog == null)
                 return View();
 
-            var result = productManager.DeleteProduct(product);
+            var result = catalogManager.DeleteCatalog(catalog);
 
             if (result.IsSuccess)
             {
@@ -155,7 +155,7 @@ namespace EURISTest.Controllers
             else
             {
                 ViewBag.ErrorMessage = result.Message;
-                return View(product);
+                return View(catalog);
             }
         }
     }
